@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MAKR 100 - Project 1 Flowcharts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --accent: #0ea5e9;
+      --btn-bg: #f1f5f9;
+      --btn-hover: #e2e8f0;
+      --btn-text: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    h1 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.025em;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .header-actions {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 2.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+      page-break-inside: avoid;
+    }
+
+    .card-header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      background: #fafafa;
+    }
+
+    .card-title-group h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    .card-title-group p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 0.875rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background-color: var(--btn-bg);
+      color: var(--btn-text);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background-color: var(--btn-hover);
+      color: #0f172a;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+      color: #ffffff;
+    }
+
+    .diagram-container {
+      padding: 2rem 1.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: auto;
+      background: #ffffff;
+    }
+
+    .diagram-container svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .code-preview {
+      display: none;
+      padding: 1rem 1.5rem;
+      background: #0f172a;
+      color: #e2e8f0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      border-top: 1px solid var(--border);
+      white-space: pre-wrap;
+      overflow-x: auto;
+    }
+
+    .code-preview.visible {
+      display: block;
+    }
+
+    .pin-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .pin-table th, .pin-table td {
+      border: 1px solid var(--border);
+      padding: 0.75rem 1rem;
+      text-align: left;
+    }
+
+    .pin-table th {
+      background: #f1f5f9;
+      font-weight: 600;
+    }
+
+    .pin-table tr:nth-child(even) {
+      background: #f8fafc;
+    }
+
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+      .header-actions, .card-actions, .btn {
+        display: none !important;
+      }
+      .card {
+        box-shadow: none;
+        border: 1px solid #ccc;
+        margin-bottom: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Project 1 Flowcharts</h1>
+      <p class="subtitle">Arduino Program Architecture & Logic Breakdown (MAKR 100)</p>
+      <div class="header-actions">
+        <button class="btn btn-primary" onclick="window.print()">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>
+          Print / Save All as PDF
+        </button>
+        <button class="btn" onclick="downloadAllPNGs()">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+          Download All PNGs
+        </button>
+      </div>
+    </header>
+
+    <!-- CHART 1 -->
+    <div class="card" id="card-1">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h2>1. Master System Loop</h2>
+          <p>Full lifecycle from setup() to loop() state dispatching</p>
+        </div>
+        <div class="card-actions">
+          <button class="btn" onclick="downloadPNG('chart-1-svg', 'Flowchart_1_Master_Loop.png')">Download PNG</button>
+          <button class="btn" onclick="downloadSVG('chart-1-svg', 'Flowchart_1_Master_Loop.svg')">Download SVG</button>
+          <button class="btn" onclick="toggleCode('code-1')">View Code</button>
+        </div>
+      </div>
+      <div class="diagram-container">
+        <div class="mermaid" id="chart-1-svg">
+flowchart TD
+    Start(["Power On / Reset"]) --> Setup["setup() Initialization"]
+    
+    subgraph SetupPhase ["Setup Phase"]
+        Setup --> SerialInit["Serial.begin(9600)"]
+        SerialInit --> PinConfig["Configure Pins:<br/>• Inputs: D2 (Mode), D3 (Btn A), D4 (Btn B) as INPUT_PULLUP<br/>• Outputs: D5 (Mode A LED), D6 (Mode B LED)<br/>• Shared Outputs: D7–D12 set to OUTPUT & LOW"]
+        PinConfig --> InitMode["updateModeIndicators()<br/>• D5 = HIGH (ON), D6 = LOW (OFF)"]
+        InitMode --> InitPrint["Serial.println('Project A: Binary Counter')<br/>Serial.println('Counter: 0')"]
+    end
+
+    InitPrint --> LoopStart{"loop()"}
+
+    subgraph LoopCycle ["Continuous Loop Execution"]
+        LoopStart --> CheckModeButton["handleModeButton()<br/>Check D2 for short press or 5-second hold"]
+        CheckModeButton --> ModeBranch{"Is projectBActive true?"}
+        
+        %% Branch Project A
+        ModeBranch -- "False (Project A)" --> ShowBinary["showBinary(counter)<br/>Display 5-bit binary count on D12..D8"]
+        
+        %% Branch Project B
+        ModeBranch -- "True (Project B)" --> RunProjectB["runProjectB()<br/>Evaluate logic expressions and output to D7..D12"]
+        
+        ShowBinary --> LoopStart
+        RunProjectB --> LoopStart
+    end
+        </div>
+      </div>
+      <div class="code-preview" id="code-1">flowchart TD
+    Start(["Power On / Reset"]) --> Setup["setup() Initialization"]
+    
+    subgraph SetupPhase ["Setup Phase"]
+        Setup --> SerialInit["Serial.begin(9600)"]
+        SerialInit --> PinConfig["Configure Pins:<br/>• Inputs: D2 (Mode), D3 (Btn A), D4 (Btn B) as INPUT_PULLUP<br/>• Outputs: D5 (Mode A LED), D6 (Mode B LED)<br/>• Shared Outputs: D7–D12 set to OUTPUT & LOW"]
+        PinConfig --> InitMode["updateModeIndicators()<br/>• D5 = HIGH (ON), D6 = LOW (OFF)"]
+        InitMode --> InitPrint["Serial.println('Project A: Binary Counter')<br/>Serial.println('Counter: 0')"]
+    end
+
+    InitPrint --> LoopStart{"loop()"}
+
+    subgraph LoopCycle ["Continuous Loop Execution"]
+        LoopStart --> CheckModeButton["handleModeButton()<br/>Check D2 for short press or 5-second hold"]
+        CheckModeButton --> ModeBranch{"Is projectBActive true?"}
+        
+        %% Branch Project A
+        ModeBranch -- "False (Project A)" --> ShowBinary["showBinary(counter)<br/>Display 5-bit binary count on D12..D8"]
+        
+        %% Branch Project B
+        ModeBranch -- "True (Project B)" --> RunProjectB["runProjectB()<br/>Evaluate logic expressions and output to D7..D12"]
+        
+        ShowBinary --> LoopStart
+        RunProjectB --> LoopStart
+    end</div>
+    </div>
+
+    <!-- CHART 2 -->
+    <div class="card" id="card-2">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h2>2. Mode Button & Hold/Press Handler</h2>
+          <p>50ms software debounce, 5-second hold switch, and short-press counter increment</p>
+        </div>
+        <div class="card-actions">
+          <button class="btn" onclick="downloadPNG('chart-2-svg', 'Flowchart_2_Mode_Button.png')">Download PNG</button>
+          <button class="btn" onclick="downloadSVG('chart-2-svg', 'Flowchart_2_Mode_Button.svg')">Download SVG</button>
+          <button class="btn" onclick="toggleCode('code-2')">View Code</button>
+        </div>
+      </div>
+      <div class="diagram-container">
+        <div class="mermaid" id="chart-2-svg">
+flowchart TD
+    StartBtn(["handleModeButton()"]) --> ReadPin["Read D2 (digitalRead)<br/>LOW = Pressed, HIGH = Released"]
+    
+    ReadPin --> DebounceTime{"Has reading changed?"}
+    DebounceTime -- "Yes" --> ResetDebounce["Update lastModeDebounceTime = millis()"] --> StableCheck
+    DebounceTime -- "No" --> StableCheck{"millis() - lastDebounceTime > 50ms?"}
+
+    StableCheck -- "No" --> CheckHold
+    StableCheck -- "Yes" --> CheckStateChange{"reading != stableModeState?"}
+
+    CheckStateChange -- "No" --> CheckHold
+    CheckStateChange -- "Yes" --> UpdateState["stableModeState = reading"]
+
+    UpdateState --> Transition{"stableModeState value?"}
+    
+    Transition -- "LOW (Just Pressed)" --> PressDown["modePressStartTime = millis()<br/>modeHoldHandled = false"] --> CheckHold
+    
+    Transition -- "HIGH (Just Released)" --> ReleaseCheck{"!modeHoldHandled AND<br/>!projectBActive?"}
+    ReleaseCheck -- "Yes (Short Press in Proj A)" --> CallIncrement["incrementCounter()<br/>Add 1 to counter"] --> CheckHold
+    ReleaseCheck -- "No" --> CheckHold
+
+    CheckHold{"stableModeState == LOW AND<br/>!modeHoldHandled AND<br/>(millis() - pressTime) >= 5000ms?"}
+    
+    CheckHold -- "Yes (Held 5 Seconds)" --> Toggle["toggleProjectMode()<br/>• projectBActive = !projectBActive<br/>• turnOffDataLeds()<br/>• updateModeIndicators() (D5/D6)<br/>• modeHoldHandled = true"]
+    CheckHold -- "No" --> EndBtn(["Return to loop()"])
+    Toggle --> EndBtn
+        </div>
+      </div>
+      <div class="code-preview" id="code-2">flowchart TD
+    StartBtn(["handleModeButton()"]) --> ReadPin["Read D2 (digitalRead)<br/>LOW = Pressed, HIGH = Released"]
+    
+    ReadPin --> DebounceTime{"Has reading changed?"}
+    DebounceTime -- "Yes" --> ResetDebounce["Update lastModeDebounceTime = millis()"] --> StableCheck
+    DebounceTime -- "No" --> StableCheck{"millis() - lastDebounceTime > 50ms?"}
+
+    StableCheck -- "No" --> CheckHold
+    StableCheck -- "Yes" --> CheckStateChange{"reading != stableModeState?"}
+
+    CheckStateChange -- "No" --> CheckHold
+    CheckStateChange -- "Yes" --> UpdateState["stableModeState = reading"]
+
+    UpdateState --> Transition{"stableModeState value?"}
+    
+    Transition -- "LOW (Just Pressed)" --> PressDown["modePressStartTime = millis()<br/>modeHoldHandled = false"] --> CheckHold
+    
+    Transition -- "HIGH (Just Released)" --> ReleaseCheck{"!modeHoldHandled AND<br/>!projectBActive?"}
+    ReleaseCheck -- "Yes (Short Press in Proj A)" --> CallIncrement["incrementCounter()<br/>Add 1 to counter"] --> CheckHold
+    ReleaseCheck -- "No" --> CheckHold
+
+    CheckHold{"stableModeState == LOW AND<br/>!modeHoldHandled AND<br/>(millis() - pressTime) >= 5000ms?"}
+    
+    CheckHold -- "Yes (Held 5 Seconds)" --> Toggle["toggleProjectMode()<br/>• projectBActive = !projectBActive<br/>• turnOffDataLeds()<br/>• updateModeIndicators() (D5/D6)<br/>• modeHoldHandled = true"]
+    CheckHold -- "No" --> EndBtn(["Return to loop()"])
+    Toggle --> EndBtn</div>
+    </div>
+
+    <!-- CHART 3 -->
+    <div class="card" id="card-3">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h2>3. Project A: Binary Counter</h2>
+          <p>0–31 modulo counter and 5-bit LED mapping (D12..D8)</p>
+        </div>
+        <div class="card-actions">
+          <button class="btn" onclick="downloadPNG('chart-3-svg', 'Flowchart_3_Project_A_Binary.png')">Download PNG</button>
+          <button class="btn" onclick="downloadSVG('chart-3-svg', 'Flowchart_3_Project_A_Binary.svg')">Download SVG</button>
+          <button class="btn" onclick="toggleCode('code-3')">View Code</button>
+        </div>
+      </div>
+      <div class="diagram-container">
+        <div class="mermaid" id="chart-3-svg">
+flowchart TD
+    subgraph IncrementLogic ["incrementCounter() Function"]
+        IncStart(["incrementCounter()"]) --> AddOne["counter++"]
+        AddOne --> WrapCheck{"counter > 31?"}
+        WrapCheck -- "Yes" --> ResetZero["counter = 0"] --> ShowBin
+        WrapCheck -- "No" --> ShowBin["showBinary(counter)"]
+        ShowBin --> SerialLog["Serial.print('Counter: ')<br/>Serial.println(counter)"]
+    end
+
+    subgraph DisplayBinary ["showBinary(value) Function"]
+        ShowStart(["showBinary(value)"]) --> ClearLEDs["turnOffDataLeds()<br/>D7..D12 set LOW"]
+        ClearLEDs --> LoopBits["For i = 0 to 4 (5 bits):<br/>digitalWrite(binaryLeds[i], bitRead(value, i))"]
+        LoopBits --> BitMap["Mapping (LSB to MSB):<br/>• bit 0 (1s) → D12<br/>• bit 1 (2s) → D11<br/>• bit 2 (4s) → D10<br/>• bit 3 (8s) → D9<br/>• bit 4 (16s) → D8"]
+    end
+        </div>
+      </div>
+      <div class="code-preview" id="code-3">flowchart TD
+    subgraph IncrementLogic ["incrementCounter() Function"]
+        IncStart(["incrementCounter()"]) --> AddOne["counter++"]
+        AddOne --> WrapCheck{"counter > 31?"}
+        WrapCheck -- "Yes" --> ResetZero["counter = 0"] --> ShowBin
+        WrapCheck -- "No" --> ShowBin["showBinary(counter)"]
+        ShowBin --> SerialLog["Serial.print('Counter: ')<br/>Serial.println(counter)"]
+    end
+
+    subgraph DisplayBinary ["showBinary(value) Function"]
+        ShowStart(["showBinary(value)"]) --> ClearLEDs["turnOffDataLeds()<br/>D7..D12 set LOW"]
+        ClearLEDs --> LoopBits["For i = 0 to 4 (5 bits):<br/>digitalWrite(binaryLeds[i], bitRead(value, i))"]
+        LoopBits --> BitMap["Mapping (LSB to MSB):<br/>• bit 0 (1s) → D12<br/>• bit 1 (2s) → D11<br/>• bit 2 (4s) → D10<br/>• bit 3 (8s) → D9<br/>• bit 4 (16s) → D8"]
+    end</div>
+    </div>
+
+    <!-- CHART 4 -->
+    <div class="card" id="card-4">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h2>4. Project B: Logic Gate Operators</h2>
+          <p>Read inputs A & B, evaluate Boolean gates, and drive outputs D7..D12</p>
+        </div>
+        <div class="card-actions">
+          <button class="btn" onclick="downloadPNG('chart-4-svg', 'Flowchart_4_Project_B_Logic.png')">Download PNG</button>
+          <button class="btn" onclick="downloadSVG('chart-4-svg', 'Flowchart_4_Project_B_Logic.svg')">Download SVG</button>
+          <button class="btn" onclick="toggleCode('code-4')">View Code</button>
+        </div>
+      </div>
+      <div class="diagram-container">
+        <div class="mermaid" id="chart-4-svg">
+flowchart TD
+    StartB(["runProjectB()"]) --> ReadButtons["Read Inputs (LOW = true):<br/>• stateA = (digitalRead(D3) == LOW)<br/>• stateB = (digitalRead(D4) == LOW)"]
+    
+    ReadButtons --> EvaluateLogic["Calculate Logic Expressions:<br/>• notA = !stateA<br/>• andResult = stateA && stateB<br/>• orResult = stateA || stateB<br/>• xorExpression = (stateA && !stateB) || (!stateA && stateB)"]
+    
+    EvaluateLogic --> OutputLEDs["Drive LEDs (Left to Right):<br/>• D7 = stateA<br/>• D8 = stateB<br/>• D9 = notA<br/>• D10 = andResult<br/>• D11 = orResult<br/>• D12 = xorExpression"]
+    
+    OutputLEDs --> ChangeCheck{"!logicPrinted OR<br/>stateA != lastLogicA OR<br/>stateB != lastLogicB?"}
+    
+    ChangeCheck -- "Yes" --> PrintLogic["printLogicStates(...)<br/>Output to Serial Monitor:<br/>'A=... B=... | !A=... | A&&B=... | A||B=... | XOR=...'"]
+    PrintLogic --> UpdateFlags["lastLogicA = stateA<br/>lastLogicB = stateB<br/>logicPrinted = true"] --> EndB(["Return to loop()"])
+    
+    ChangeCheck -- "No" --> EndB
+        </div>
+      </div>
+      <div class="code-preview" id="code-4">flowchart TD
+    StartB(["runProjectB()"]) --> ReadButtons["Read Inputs (LOW = true):<br/>• stateA = (digitalRead(D3) == LOW)<br/>• stateB = (digitalRead(D4) == LOW)"]
+    
+    ReadButtons --> EvaluateLogic["Calculate Logic Expressions:<br/>• notA = !stateA<br/>• andResult = stateA && stateB<br/>• orResult = stateA || stateB<br/>• xorExpression = (stateA && !stateB) || (!stateA && stateB)"]
+    
+    EvaluateLogic --> OutputLEDs["Drive LEDs (Left to Right):<br/>• D7 = stateA<br/>• D8 = stateB<br/>• D9 = notA<br/>• D10 = andResult<br/>• D11 = orResult<br/>• D12 = xorExpression"]
+    
+    OutputLEDs --> ChangeCheck{"!logicPrinted OR<br/>stateA != lastLogicA OR<br/>stateB != lastLogicB?"}
+    
+    ChangeCheck -- "Yes" --> PrintLogic["printLogicStates(...)<br/>Output to Serial Monitor:<br/>'A=... B=... | !A=... | A&&B=... | A||B=... | XOR=...'"]
+    PrintLogic --> UpdateFlags["lastLogicA = stateA<br/>lastLogicB = stateB<br/>logicPrinted = true"] --> EndB(["Return to loop()"])
+    
+    ChangeCheck -- "No" --> EndB</div>
+    </div>
+
+    <!-- HARDWARE PIN TABLE -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h2>Hardware Pin Reference Map</h2>
+          <p>Arduino Uno connection specifications for both operating modes</p>
+        </div>
+      </div>
+      <div style="padding: 1.5rem;">
+        <table class="pin-table">
+          <thead>
+            <tr>
+              <th>Pin</th>
+              <th>Project A (Binary Counter)</th>
+              <th>Project B (Logic Gates)</th>
+              <th>Mode / Electrical</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>D2</strong></td>
+              <td>Short press to increment counter</td>
+              <td>Hold 5s to return to Project A</td>
+              <td><code>INPUT_PULLUP</code> (Pressed = LOW)</td>
+            </tr>
+            <tr>
+              <td><strong>D3</strong></td>
+              <td><em>(Unused)</em></td>
+              <td>Button A</td>
+              <td><code>INPUT_PULLUP</code> (Pressed = LOW)</td>
+            </tr>
+            <tr>
+              <td><strong>D4</strong></td>
+              <td><em>(Unused)</em></td>
+              <td>Button B</td>
+              <td><code>INPUT_PULLUP</code> (Pressed = LOW)</td>
+            </tr>
+            <tr>
+              <td><strong>D5</strong></td>
+              <td><strong>Active Mode LED (ON)</strong></td>
+              <td>OFF</td>
+              <td><code>OUTPUT</code></td>
+            </tr>
+            <tr>
+              <td><strong>D6</strong></td>
+              <td>OFF</td>
+              <td><strong>Active Mode LED (ON)</strong></td>
+              <td><code>OUTPUT</code></td>
+            </tr>
+            <tr>
+              <td><strong>D7</strong></td>
+              <td>OFF</td>
+              <td>Indicator A</td>
+              <td><code>OUTPUT</code></td>
+            </tr>
+            <tr>
+              <td><strong>D8</strong></td>
+              <td>Bit 4 (16s bit)</td>
+              <td>Indicator B</td>
+              <td><code>OUTPUT</code></td>
+            </tr>
+            <tr>
+              <td><strong>D9</strong></td>
+              <td>Bit 3 (8s bit)</td>
+              <td>NOT A (<code>!A</code>)</td>
+              <td><code>OUTPUT</code></td>
+            </tr>
+            <tr>
+              <td><strong>D10</strong></td>
+              <td>Bit 2 (4s bit)</td>
+              <td>AND (<code>A &amp;&amp; B</code>)</td>
+              <td><code>OUTPUT</code></td>
+            </tr>
+            <tr>
+              <td><strong>D11</strong></td>
+              <td>Bit 1 (2s bit)</td>
+              <td>OR (<code>A || B</code>)</td>
+              <td><code>OUTPUT</code></td>
+            </tr>
+            <tr>
+              <td><strong>D12</strong></td>
+              <td>Bit 0 (1s bit / LSB)</td>
+              <td>XOR (<code>(A &amp;&amp; !B) || (!A &amp;&amp; B)</code>)</td>
+              <td><code>OUTPUT</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'default',
+      securityLevel: 'loose',
+      flowchart: {
+        useMaxWidth: false,
+        htmlLabels: true,
+        curve: 'basis'
+      }
+    });
+
+    function toggleCode(id) {
+      const el = document.getElementById(id);
+      el.classList.toggle('visible');
+    }
+
+    function getCleanSVG(containerId) {
+      const container = document.getElementById(containerId);
+      const svg = container.querySelector('svg');
+      if (!svg) return null;
+
+      const clone = svg.cloneNode(true);
+      clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+      clone.style.backgroundColor = '#ffffff';
+      return clone;
+    }
+
+    function downloadSVG(containerId, filename) {
+      const svg = getCleanSVG(containerId);
+      if (!svg) {
+        alert('Diagram still loading, please try again in a second.');
+        return;
+      }
+      const svgData = new XMLSerializer().serializeToString(svg);
+      const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+      triggerDownload(blob, filename);
+    }
+
+    function downloadPNG(containerId, filename, scale = 2) {
+      const svg = getCleanSVG(containerId);
+      if (!svg) {
+        alert('Diagram still loading, please try again in a second.');
+        return;
+      }
+
+      const svgData = new XMLSerializer().serializeToString(svg);
+      const img = new Image();
+      const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(svgBlob);
+
+      img.onload = function () {
+        const bbox = svg.getBoundingClientRect();
+        const width = (bbox.width || 800) * scale;
+        const height = (bbox.height || 600) * scale;
+
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+
+        // White background
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, width, height);
+
+        ctx.drawImage(img, 0, 0, width, height);
+        URL.revokeObjectURL(url);
+
+        canvas.toBlob(function (blob) {
+          triggerDownload(blob, filename);
+        }, 'image/png');
+      };
+
+      img.src = url;
+    }
+
+    function triggerDownload(blob, filename) {
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+    }
+
+    function downloadAllPNGs() {
+      const charts = [
+        { id: 'chart-1-svg', name: 'Flowchart_1_Master_Loop.png' },
+        { id: 'chart-2-svg', name: 'Flowchart_2_Mode_Button.png' },
+        { id: 'chart-3-svg', name: 'Flowchart_3_Project_A_Binary.png' },
+        { id: 'chart-4-svg', name: 'Flowchart_4_Project_B_Logic.png' }
+      ];
+
+      charts.forEach((chart, index) => {
+        setTimeout(() => {
+          downloadPNG(chart.id, chart.name);
+        }, index * 400);
+      });
+    }
+  </script>
+</body>
+</html>
