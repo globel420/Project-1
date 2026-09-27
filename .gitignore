@@ -1,0 +1,14 @@
+# PlatformIO build output and generated editor configuration
+.pio/
+.vscode/c_cpp_properties.json
+.vscode/launch.json
+
+# macOS metadata and local automation/cache files
+.DS_Store
+.playwright-cli/
+__pycache__/
+*.py[cod]
+
+# Temporary render lists contain paths specific to the local machine
+Video/render_work/*.concat.txt
+Video/render_work/last_revision_archive.txt

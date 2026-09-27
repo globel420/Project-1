@@ -1,0 +1,536 @@
+{
+  "title": "Project 1 — How the LEDs work",
+  "total_duration_seconds": 210,
+  "export": {
+    "width": 1920,
+    "height": 1080,
+    "frames_per_second": 24,
+    "audio": "silent; owner will narrate"
+  },
+  "binary_end_seconds": 110,
+  "source": "Program/Program.ino",
+  "notes": [
+    "Match the user's own spoken narration; on-screen text should summarize, not repeat every spoken word.",
+    "One idea at a time. No scrolling code panels, pin tables, or nested flowchart jumps.",
+    "Show the actual Arduino bitRead implementation: shift right by the bit index, then bitwise AND with 0x01. Do not substitute division or parity explanations.",
+    "The logic rule scenes must show correct complete output states; focus highlighting does not turn other true outputs off.",
+    "Physical LED graphics use 16,8,4,2,1 left to right. The loop begins at bit0, the far-right1s LED, and moves LEFT as i increases. Written binary uses the same MSB-left orientation."
+  ],
+  "scenes": [
+    {
+      "id": "intro",
+      "kind": "intro",
+      "duration_seconds": 8,
+      "spoken": "Here's how the Arduino decides which LEDs to turn on in each mode.",
+      "visual": {
+        "title": "How the LEDs know what to show",
+        "subtitle": "Binary numbers and logical operators"
+      },
+      "start_seconds": 0,
+      "end_seconds": 8
+    },
+    {
+      "id": "weights",
+      "kind": "binary_weights",
+      "duration_seconds": 12,
+      "spoken": "The ones LED is on the far right. Moving left, the values are two, four, eight, and sixteen. The code starts at the rightmost LED.",
+      "visual": {
+        "count": 0,
+        "weights": [
+          16,
+          8,
+          4,
+          2,
+          1
+        ],
+        "highlight_order": [
+          1,
+          2,
+          4,
+          8,
+          16
+        ],
+        "title": "Each position is worth twice as much"
+      },
+      "start_seconds": 8,
+      "end_seconds": 20
+    },
+    {
+      "id": "thirteen",
+      "kind": "binary_sum",
+      "duration_seconds": 13,
+      "spoken": "To display thirteen, the one, four, and eight lights are on. One plus four plus eight equals thirteen. The two and sixteen lights stay off.",
+      "visual": {
+        "count": 13,
+        "weights": [
+          16,
+          8,
+          4,
+          2,
+          1
+        ],
+        "illuminate_order": [
+          1,
+          4,
+          8
+        ],
+        "equation": "1 + 4 + 8 = 13"
+      },
+      "start_seconds": 20,
+      "end_seconds": 33
+    },
+    {
+      "id": "main_functions",
+      "kind": "binary_functions",
+      "duration_seconds": 13,
+      "spoken": "Each short press and release calls incrementCounter, which adds one. Then showBinary reads the five bits of that number and updates the lights.",
+      "visual": {
+        "from_count": 12,
+        "count": 13,
+        "labels": [
+          "Short press and release",
+          "incrementCounter(): add one",
+          "showBinary(): update the lights"
+        ],
+        "max_visible_function_names": 2
+      },
+      "start_seconds": 33,
+      "end_seconds": 46
+    },
+    {
+      "id": "bit_math",
+      "kind": "binary_math_intro",
+      "duration_seconds": 13,
+      "spoken": "bitRead shifts the number right, then uses bitwise AND with one. The shift moves the chosen bit to the rightmost position. AND keeps only that bit.",
+      "visual": {
+        "title": "The actual code inside bitRead",
+        "expression": "(value >> bit) & 0x01",
+        "shift_bit_index": 1,
+        "mask_binary": "00001",
+        "comparisons": [
+          {
+            "count": 2,
+            "binary": "00010",
+            "shifted_binary": "00001",
+            "mask_result_binary": "00001",
+            "result": 1,
+            "pin": 11
+          },
+          {
+            "count": 13,
+            "binary": "01101",
+            "shifted_binary": "00110",
+            "mask_result_binary": "00000",
+            "result": 0,
+            "pin": 11
+          }
+        ],
+        "note": "0x01 is 1. Bitwise AND with 00001 keeps only the rightmost bit."
+      },
+      "start_seconds": 46,
+      "end_seconds": 59
+    },
+    {
+      "id": "ones_bit",
+      "kind": "binary_bit",
+      "duration_seconds": 8,
+      "spoken": "Shifting thirteen by zero leaves its bits unchanged. AND with one returns one, so pin twelve turns on.",
+      "visual": {
+        "count": 13,
+        "weight": 1,
+        "bit_index": 0,
+        "result": 1,
+        "pin": 12,
+        "input_binary": "01101",
+        "shifted_binary": "01101",
+        "mask_binary": "00001",
+        "mask_result_binary": "00001",
+        "expression": "(13 >> 0) & 0x01"
+      },
+      "start_seconds": 59,
+      "end_seconds": 67
+    },
+    {
+      "id": "twos_bit",
+      "kind": "binary_bit",
+      "duration_seconds": 8,
+      "spoken": "Thirteen shifted right once ends in zero. AND with one gives zero, so the twos LED is off.",
+      "visual": {
+        "count": 13,
+        "weight": 2,
+        "bit_index": 1,
+        "result": 0,
+        "pin": 11,
+        "input_binary": "01101",
+        "shifted_binary": "00110",
+        "mask_binary": "00001",
+        "mask_result_binary": "00000",
+        "expression": "(13 >> 1) & 0x01"
+      },
+      "start_seconds": 67,
+      "end_seconds": 75
+    },
+    {
+      "id": "fours_bit",
+      "kind": "binary_bit",
+      "duration_seconds": 8,
+      "spoken": "Shift thirteen right twice. The last bit is one. AND with one keeps it, turning on the fours LED.",
+      "visual": {
+        "count": 13,
+        "weight": 4,
+        "bit_index": 2,
+        "result": 1,
+        "pin": 10,
+        "input_binary": "01101",
+        "shifted_binary": "00011",
+        "mask_binary": "00001",
+        "mask_result_binary": "00001",
+        "expression": "(13 >> 2) & 0x01"
+      },
+      "start_seconds": 75,
+      "end_seconds": 83
+    },
+    {
+      "id": "eights_bit",
+      "kind": "binary_bit",
+      "duration_seconds": 8,
+      "spoken": "Shift thirteen right three times. The result is one. AND with one keeps it, turning on the eights LED.",
+      "visual": {
+        "count": 13,
+        "weight": 8,
+        "bit_index": 3,
+        "result": 1,
+        "pin": 9,
+        "input_binary": "01101",
+        "shifted_binary": "00001",
+        "mask_binary": "00001",
+        "mask_result_binary": "00001",
+        "expression": "(13 >> 3) & 0x01"
+      },
+      "start_seconds": 83,
+      "end_seconds": 91
+    },
+    {
+      "id": "sixteens_bit",
+      "kind": "binary_bit",
+      "duration_seconds": 8,
+      "spoken": "Shift thirteen right four times. The result is zero. AND with one keeps zero, so the sixteens LED stays off.",
+      "visual": {
+        "count": 13,
+        "weight": 16,
+        "bit_index": 4,
+        "result": 0,
+        "pin": 8,
+        "input_binary": "01101",
+        "shifted_binary": "00000",
+        "mask_binary": "00001",
+        "mask_result_binary": "00000",
+        "expression": "(13 >> 4) & 0x01"
+      },
+      "start_seconds": 91,
+      "end_seconds": 99
+    },
+    {
+      "id": "rollover",
+      "kind": "binary_rollover",
+      "duration_seconds": 11,
+      "spoken": "The one, four, and eight LEDs are on for thirteen. At thirty-one, all five are on. Another press resets the count to zero.",
+      "visual": {
+        "phases": [
+          {
+            "seconds": 4,
+            "count": 13,
+            "label": "13: LEDs 1 + 4 + 8"
+          },
+          {
+            "seconds": 4,
+            "count": 31,
+            "label": "11111 = 31"
+          },
+          {
+            "seconds": 3,
+            "count": 0,
+            "label": "Next press: back to 0"
+          }
+        ]
+      },
+      "start_seconds": 99,
+      "end_seconds": 110
+    },
+    {
+      "id": "logic_intro",
+      "kind": "logic_intro",
+      "duration_seconds": 12,
+      "spoken": "Logical operators work with true-or-false answers. runProjectB reads the two buttons. A pressed button becomes true; a released button becomes false.",
+      "visual": {
+        "a": 0,
+        "b": 0,
+        "title": "Pressed = true     Released = false",
+        "function": "runProjectB()"
+      },
+      "start_seconds": 110,
+      "end_seconds": 122
+    },
+    {
+      "id": "not_a",
+      "kind": "logic_rule",
+      "duration_seconds": 11,
+      "spoken": "NOT A asks, is A released? With A released, NOT A is true and its LED is on. Pressing A makes it false.",
+      "visual": {
+        "rule": "NOT A",
+        "question": "Is A released?",
+        "states": [
+          {
+            "a": 0,
+            "b": 0,
+            "seconds": 7
+          },
+          {
+            "a": 1,
+            "b": 0,
+            "seconds": 4
+          }
+        ]
+      },
+      "start_seconds": 122,
+      "end_seconds": 133
+    },
+    {
+      "id": "and",
+      "kind": "logic_rule",
+      "duration_seconds": 11,
+      "spoken": "AND asks, are both buttons pressed? Its LED turns on only when A and B are both true.",
+      "visual": {
+        "rule": "AND",
+        "question": "Are both buttons pressed?",
+        "states": [
+          {
+            "a": 1,
+            "b": 0,
+            "seconds": 4
+          },
+          {
+            "a": 1,
+            "b": 1,
+            "seconds": 7
+          }
+        ]
+      },
+      "start_seconds": 133,
+      "end_seconds": 144
+    },
+    {
+      "id": "or",
+      "kind": "logic_rule",
+      "duration_seconds": 11,
+      "spoken": "OR asks, is at least one button pressed? A alone, B alone, or both together make OR true.",
+      "visual": {
+        "rule": "OR",
+        "question": "Is at least one button pressed?",
+        "states": [
+          {
+            "a": 1,
+            "b": 0,
+            "seconds": 4
+          },
+          {
+            "a": 0,
+            "b": 1,
+            "seconds": 4
+          },
+          {
+            "a": 1,
+            "b": 1,
+            "seconds": 3
+          }
+        ]
+      },
+      "start_seconds": 144,
+      "end_seconds": 155
+    },
+    {
+      "id": "xor",
+      "kind": "logic_rule",
+      "duration_seconds": 13,
+      "spoken": "Exclusive OR asks, is exactly one button pressed? A alone or B alone makes it true. Press both, and exclusive OR turns off.",
+      "visual": {
+        "rule": "XOR",
+        "question": "Is exactly one button pressed?",
+        "states": [
+          {
+            "a": 1,
+            "b": 0,
+            "seconds": 5
+          },
+          {
+            "a": 0,
+            "b": 1,
+            "seconds": 4
+          },
+          {
+            "a": 1,
+            "b": 1,
+            "seconds": 4
+          }
+        ]
+      },
+      "start_seconds": 155,
+      "end_seconds": 168
+    },
+    {
+      "id": "neither_pressed",
+      "kind": "logic_combination",
+      "duration_seconds": 7,
+      "spoken": "With neither button pressed, the only output light on is NOT A.",
+      "visual": {
+        "a": 0,
+        "b": 0,
+        "outputs": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "title": "Neither button pressed"
+      },
+      "start_seconds": 168,
+      "end_seconds": 175
+    },
+    {
+      "id": "a_pressed",
+      "kind": "logic_combination",
+      "duration_seconds": 7,
+      "spoken": "With A alone, the A indicator, OR, and exclusive OR are on.",
+      "visual": {
+        "a": 1,
+        "b": 0,
+        "outputs": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        "title": "A only"
+      },
+      "start_seconds": 175,
+      "end_seconds": 182
+    },
+    {
+      "id": "b_pressed",
+      "kind": "logic_combination",
+      "duration_seconds": 7,
+      "spoken": "With B alone, B, NOT A, OR, and exclusive OR are on.",
+      "visual": {
+        "a": 0,
+        "b": 1,
+        "outputs": [
+          0,
+          1,
+          1,
+          0,
+          1,
+          1
+        ],
+        "title": "B only"
+      },
+      "start_seconds": 182,
+      "end_seconds": 189
+    },
+    {
+      "id": "both_pressed",
+      "kind": "logic_combination",
+      "duration_seconds": 9,
+      "spoken": "With both pressed, A, B, AND, and OR are on. Exclusive OR is off.",
+      "visual": {
+        "a": 1,
+        "b": 1,
+        "outputs": [
+          1,
+          1,
+          0,
+          1,
+          1,
+          0
+        ],
+        "title": "Both buttons pressed"
+      },
+      "start_seconds": 189,
+      "end_seconds": 198
+    },
+    {
+      "id": "closing",
+      "kind": "closing",
+      "duration_seconds": 12,
+      "spoken": "For every result, digitalWrite turns the matching LED on for true and off for false. The main loop repeats, so the display responds whenever the buttons change.",
+      "visual": {
+        "a": 1,
+        "b": 1,
+        "title": "True → LED on     False → LED off",
+        "labels": [
+          "Read the buttons",
+          "Calculate the results",
+          "Update the LEDs",
+          "Repeat"
+        ]
+      },
+      "start_seconds": 198,
+      "end_seconds": 210
+    }
+  ],
+  "bitRead_definition": {
+    "source": "Arduino AVR Boards 1.8.8, cores/arduino/Arduino.h:111",
+    "code": "#define bitRead(value, bit) (((value) >> (bit)) & 0x01)"
+  },
+  "led_display_order": {
+    "values": [
+      16,
+      8,
+      4,
+      2,
+      1
+    ],
+    "bit_indices": [
+      4,
+      3,
+      2,
+      1,
+      0
+    ],
+    "pins": [
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "direction": "physical display, left to right; 1s LED at the far right"
+  },
+  "loop_order": {
+    "values": [
+      1,
+      2,
+      4,
+      8,
+      16
+    ],
+    "bit_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "pins": [
+      12,
+      11,
+      10,
+      9,
+      8
+    ],
+    "direction": "right to left across the physical LED display"
+  }
+}

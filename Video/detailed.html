@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project 1 · Inside the program</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <header>
+    <div><span class="eyebrow">HARRY BARTOS · MAKR 100 · PROJECT 1</span><h1>Inside the program</h1></div>
+    <button id="record">Clean recording view</button>
+  </header>
+  <div class="controls">
+    <label>Action to illustrate<select id="scene"></select></label>
+    <div class="transport"><button id="restart" aria-label="Restart current animation">Restart</button><button id="back" aria-label="Previous code step">←</button><button id="play" class="primary">Play</button><button id="next">Next step →</button></div>
+    <label>Jump to part<select id="chapter"></select></label>
+    <label>Time per step<select id="speed"><option value="300">0.3 seconds</option><option value="600">0.6 seconds</option><option value="1000" selected>1 second</option><option value="1800">1.8 seconds</option></select></label>
+  </div>
+  <section class="stage" aria-label="Animated code explanation">
+    <div class="stage-heading"><h2 id="scene-title"></h2><span id="step-count" class="muted"></span></div>
+    <div class="state-strip">
+      <div class="mode"><span class="muted">ACTIVE MODE</span><strong id="mode"></strong><span id="counter"></span></div>
+      <div class="led-board" id="led-board" aria-label="Illustrated output LEDs"></div>
+      <div class="state-extra" id="state-extra"></div>
+    </div>
+    <div class="panels">
+      <section class="flow-panel"><div class="panel-title"><span>PROGRAM FLOW</span><strong id="function-name"></strong></div><svg id="flow" role="img" aria-label="Flowchart with current step highlighted"></svg></section>
+      <section class="code-panel"><div class="panel-title"><span>PROGRAM.INO</span><span id="line-ref"></span></div><div id="code" tabindex="0" aria-label="Arduino code with the active lines highlighted"></div></section>
+    </div>
+    <div class="caption"><span class="step-dot"></span><div id="explanation" aria-live="polite"></div><span id="iteration"></span></div>
+    <div class="call-path" id="call-path"></div>
+    <div class="timeline" id="timeline" aria-hidden="true"></div>
+  </section>
+  <footer><span>Illustrated replay of the saved sketch · repeated idle passes omitted · not a live debugger</span><span>Space: play/pause · ← →: step · R: restart · H: clean view</span></footer>
+  <details class="help"><summary>Recording notes</summary><p>Record the finished, enclosed build first. Demonstrate both modes before opening the enclosure. Record this animation separately and combine it with your hardware clips in the video editor. Pause or freeze a hardware shot while the code explanation continues.</p><p>Choose an action, press Restart, then Play. Next step lets you match the animation to your narration. Clean recording view hides the controls; keyboard shortcuts still work. Each action starts from the stated example state, so use the same count and buttons in the matching hardware clip. LED positions here follow pins D7–D12; use your physical labels to match the camera orientation.</p><p>These are explanatory snapshots generated from Program/Program.ino. They do not read, upload to, or slow the Arduino. Source line numbers refer to the saved snapshot used to create this companion.</p><p><a href="Video_Script.md">Open the narration and shot list</a></p></details>
+</main>
+<script src="source.js"></script>
+<script src="trace.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

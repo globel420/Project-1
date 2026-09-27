@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project 1 · How the LEDs work</title><link rel="icon" href="data:,"><link rel="stylesheet" href="concepts.css">
+</head>
+<body>
+<main>
+<header><span class="eyebrow">MAKR 100 · PROJECT 1</span><h1>How the LEDs work</h1></header>
+<nav aria-label="Choose an explanation"><button id="binary-tab" aria-pressed="true">Binary numbers</button><button id="logic-tab" aria-pressed="false">Logical operators</button></nav>
+<section id="binary-panel">
+  <h2>Each light has a value.</h2>
+  <p class="lead">Add the values of the lights that are on. That is the number.</p>
+  <div class="number-control"><button id="minus" aria-label="Previous number">−</button><label>Number <input id="number" type="number" min="0" max="31" value="13"></label><button id="plus" aria-label="Next number">+</button><button id="example13">Show 13</button></div>
+  <div id="binary-lights" class="binary-lights" aria-label="Five binary lights"></div>
+  <div id="sum" class="sum" aria-live="polite"></div>
+  <p class="function-note"><code>showBinary()</code> uses <code>bitRead()</code> to read each position. A <strong>1</strong> turns its light on; a <strong>0</strong> turns it off.</p>
+  <div class="actions"><button id="read-bits">Read the five bits slowly</button><button id="next-bit">Next light</button></div>
+  <div id="bit-explanation" class="explanation">13 uses the 8, 4, and 1 lights: 01101 in binary.</div>
+  <details id="arithmetic"><summary>The math behind reading a bit</summary><p>For a positive LED value, divide the count by that value and drop the decimal part. An odd result means 1; an even result means 0. This is the arithmetic equivalent of selecting that bit.</p><div id="arithmetic-example"></div></details>
+  <p class="small"><code>incrementCounter()</code> adds one after a short press and release. After 31, it returns to 0.</p>
+</section>
+<section id="logic-panel" hidden>
+  <h2>Each light answers a question.</h2>
+  <p class="lead">Pressed means true. Released means false. A true result turns its light on.</p>
+  <div class="logic-inputs"><button id="input-a" aria-pressed="false">A: released</button><button id="input-b" aria-pressed="false">B: released</button></div>
+  <p class="small">Click A or B to show that button pressed or released.</p>
+  <div id="input-lights" class="input-lights"></div>
+  <div id="rules" class="rules"></div>
+  <div class="actions"><button id="read-rules">Explain the four results slowly</button><button id="next-rule">Next result</button></div>
+  <div id="logic-explanation" class="explanation" aria-live="polite">Neither button is pressed, so only NOT A is on.</div>
+  <p class="function-note"><code>runProjectB()</code> reads A and B, checks these four conditions, and sends each result to its LED with <code>digitalWrite()</code>.</p>
+</section>
+<footer>This is an illustration; control it separately from your Arduino. <a href="Video_Script.md">Video script</a> · <a href="detailed.html">Detailed code view</a></footer>
+</main>
+<script src="concepts.js"></script>
+</body></html>

@@ -1,0 +1,22 @@
+{
+  "backup": "Backups/ino-to-cpp-20260926-214519",
+  "source_sha256": "82a0f18ffebdc2be239da62713a08abad3912bf49d6a14517af0a376ed4c06c9",
+  "baseline_firmware_sha256": "c8ae001c5ee4b644b3ad5c9273d19b944c3b2930bb5f49857ea8ac2115d2b32f",
+  "converted_source_sha256": "faa735754e4d2ba8f9912925bfdb4806222e6d5096aac094956feea767ca7d4d",
+  "changes": [
+    "Renamed Program/Program.ino to Program/Program.cpp",
+    "Added eight helper function declarations; all original bytes otherwise preserved"
+  ],
+  "baseline_build": {
+    "result": "success",
+    "flash_bytes": 3422,
+    "ram_bytes": 409
+  },
+  "converted_firmware_sha256": "c8ae001c5ee4b644b3ad5c9273d19b944c3b2930bb5f49857ea8ac2115d2b32f",
+  "firmware_identical": true,
+  "converted_build": {
+    "result": "success",
+    "flash_bytes": 3422,
+    "ram_bytes": 409
+  }
+}

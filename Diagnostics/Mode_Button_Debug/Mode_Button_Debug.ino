@@ -125,6 +125,10 @@ unsigned long lastModeDebounceTime = 0;
 unsigned long modePressStartTime = 0;
 bool modeHoldHandled = false;
 
+// Diagnostic-only state; the original control logic is unchanged.
+unsigned long debugModeRawChanges = 0;
+unsigned long debugLastReportTime = 0;
+
 // -------------------- SERIAL MONITOR TRACKING --------------------
 // These variables keep Project B from printing the same line over and over.
 bool lastLogicA = false;
@@ -135,6 +139,7 @@ void setup() {
   // Start the Serial Monitor at 9600 baud.
   // This lets us display the counter number and the logic results.
   Serial.begin(9600);
+  Serial.println("MODE_DIAG_20260926_V3");
 
   // INPUT_PULLUP is the reason pressed buttons read LOW instead  of HIGH.
   pinMode(MODE_BUTTON_PIN, INPUT_PULLUP);
@@ -167,6 +172,7 @@ void loop() {
   // Notice this is our only loop. its super short becuase it has to catch buttin pushes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
   // A short press counts in Project A.
   // A 5 second hold switches between Project A and Project B.
+  handleModeDebugCommand();
   handleModeButton();
 
   // Run the act ive project. sence the z
@@ -175,6 +181,8 @@ void loop() {
   } else {
     showBinary(counter);
   }
+
+  printModeDebug();
 }
 
 void handleModeButton() {
@@ -185,6 +193,7 @@ void handleModeButton() {
   // If the reading changed, save the time.
   // The code waits briefly before trusting the change.
   if (reading != lastModeReading) {
+    debugModeRawChanges++;
     lastModeDebounceTime = millis();
     lastModeReading = reading;
   }
@@ -194,6 +203,7 @@ void handleModeButton() {
   if ((millis() - lastModeDebounceTime) > DEBOUNCE_DELAY) {
     if (reading != stableModeState) {
       stableModeState = reading;
+      Serial.println(stableModeState == LOW ? "DBG press" : "DBG release");
 
       if (stableModeState == LOW) {
         // The Mode button was just pressed.
@@ -367,4 +377,74 @@ void turnOffDataLeds() {
   for (int i = 0; i < DATA_LED_COUNT; i++) {
     digitalWrite(allDataLeds[i], LOW);
   }
+}
+
+// One compact report per second, plus accepted press/release messages above.
+// raw/stable: 0 = pressed, 1 = released. handled: 1 = this hold already switched.
+// held: milliseconds since the accepted press. edges: raw changes since last report.
+void printModeDebug() {
+  unsigned long now = millis();
+  if (now - debugLastReportTime < 1000) return;
+  debugLastReportTime = now;
+  Serial.print("DBG ");
+  Serial.print(projectBActive ? "B" : "A");
+  Serial.print(" raw=");
+  Serial.print(digitalRead(MODE_BUTTON_PIN));
+  Serial.print(" stable=");
+  Serial.print(stableModeState);
+  Serial.print(" handled=");
+  Serial.print(modeHoldHandled ? 1 : 0);
+  Serial.print(" held=");
+  Serial.print(stableModeState == LOW ? now - modePressStartTime : 0);
+  Serial.print(" edges=");
+  Serial.println(debugModeRawChanges);
+  debugModeRawChanges = 0;
+}
+
+// Diagnostic commands: force A or B without operating the physical button.
+// All pin assignments and the original button/mode logic remain unchanged.
+void handleModeDebugCommand() {
+  if (Serial.available() == 0) return;
+  char command = Serial.read();
+  if (command == 'a' || command == 'A') {
+    Serial.println("DBG command: A");
+    if (projectBActive) toggleProjectMode();
+  } else if (command == 'b' || command == 'B') {
+    Serial.println("DBG command: B");
+    if (!projectBActive) toggleProjectMode();
+  } else if (command == 't' || command == 'T') {
+    probeModeOutputCoupling();
+  }
+}
+
+// Diagnostic-only test, with all buttons untouched. Briefly invert each LED
+// output separately, read D2, then restore the output before testing the next.
+void probeModeOutputCoupling() {
+  Serial.println("DBG probe start (buttons untouched)");
+  if (projectBActive) toggleProjectMode();
+  showBinary(counter);
+  delay(10);
+  for (int pin = 5; pin <= 12; pin++) {
+    int outputBefore = digitalRead(pin);
+    int inputBefore = digitalRead(MODE_BUTTON_PIN);
+    digitalWrite(pin, outputBefore == HIGH ? LOW : HIGH);
+    delay(10);
+    int inputDuring = digitalRead(MODE_BUTTON_PIN);
+    digitalWrite(pin, outputBefore);
+    delay(10);
+    int inputAfter = digitalRead(MODE_BUTTON_PIN);
+    Serial.print("DBG probe D");
+    Serial.print(pin);
+    Serial.print(" out=");
+    Serial.print(outputBefore);
+    Serial.print("->");
+    Serial.print(outputBefore == HIGH ? LOW : HIGH);
+    Serial.print(" D2=");
+    Serial.print(inputBefore);
+    Serial.print("->");
+    Serial.print(inputDuring);
+    Serial.print("->");
+    Serial.println(inputAfter);
+  }
+  Serial.println("DBG probe complete; all LED outputs restored");
 }

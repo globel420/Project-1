@@ -1,0 +1,107 @@
+1
+00:00:00,000 --> 00:00:08,000
+Here's how the Arduino decides which LEDs to turn on in each
+mode.
+
+2
+00:00:08,000 --> 00:00:20,000
+In counter mode, each LED has a value: one, two, four, eight,
+or sixteen. Moving one position to the left doubles the value.
+
+3
+00:00:20,000 --> 00:00:33,000
+To display thirteen, turn on the eight, four, and one
+positions. Eight plus four plus one equals thirteen. The other
+two stay off.
+
+4
+00:00:33,000 --> 00:00:46,000
+Each short press and release calls incrementCounter, which
+adds one. Then showBinary reads the five bits of that number
+and updates the lights.
+
+5
+00:00:46,000 --> 00:00:59,000
+The function bitRead reads one binary position. Here's the
+equivalent math: divide by that position's value, keep the
+whole-number part, then check whether it's odd or even.
+
+6
+00:00:59,000 --> 00:01:07,000
+Thirteen divided by one gives thirteen. Thirteen is odd, so
+the ones bit is one, and that light is on.
+
+7
+00:01:07,000 --> 00:01:15,000
+Thirteen divided by two gives six whole. Six is even, so the
+twos bit is zero, and that light is off.
+
+8
+00:01:15,000 --> 00:01:23,000
+Thirteen divided by four gives three whole. Three is odd, so
+the fours bit is one, and that light is on.
+
+9
+00:01:23,000 --> 00:01:31,000
+Thirteen divided by eight gives one whole. One is odd, so the
+eights bit is one, and that light is on.
+
+10
+00:01:31,000 --> 00:01:39,000
+Thirteen divided by sixteen gives zero whole. Zero is even, so
+the sixteens bit is zero, and that light is off.
+
+11
+00:01:39,000 --> 00:01:50,000
+The five results are zero, one, one, zero, one. At thirty-one,
+all five LEDs are on. The next count resets them to zero.
+
+12
+00:01:50,000 --> 00:02:02,000
+Logical operators work with true-or-false answers. runProjectB
+reads the two buttons. A pressed button becomes true; a
+released button becomes false.
+
+13
+00:02:02,000 --> 00:02:13,000
+NOT A asks, is A released? With A released, NOT A is true and
+its LED is on. Pressing A makes it false.
+
+14
+00:02:13,000 --> 00:02:24,000
+AND asks, are both buttons pressed? Its LED turns on only when
+A and B are both true.
+
+15
+00:02:24,000 --> 00:02:35,000
+OR asks, is at least one button pressed? A alone, B alone, or
+both together make OR true.
+
+16
+00:02:35,000 --> 00:02:48,000
+Exclusive OR asks, is exactly one button pressed? A alone or B
+alone makes it true. Press both, and exclusive OR turns off.
+
+17
+00:02:48,000 --> 00:02:55,000
+With neither button pressed, the only output light on is NOT
+A.
+
+18
+00:02:55,000 --> 00:03:02,000
+With A alone, the A indicator, OR, and exclusive OR are on.
+
+19
+00:03:02,000 --> 00:03:09,000
+With B alone, B, NOT A, OR, and exclusive OR are on.
+
+20
+00:03:09,000 --> 00:03:18,000
+With both pressed, A, B, AND, and OR are on. Exclusive OR is
+off.
+
+21
+00:03:18,000 --> 00:03:30,000
+For every result, digitalWrite turns the matching LED on for
+true and off for false. The main loop repeats, so the display
+responds whenever the buttons change.

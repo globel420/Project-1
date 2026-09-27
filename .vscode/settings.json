@@ -1,0 +1,8 @@
+{
+  "files.associations": {
+    "*.ino": "cpp"
+  },
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": true,
+  "clangd.enable": false
+}

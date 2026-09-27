@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project 1 · Why these lights turn on</title>
+  <link rel="icon" href="data:,"><link rel="stylesheet" href="concepts.css?v=7">
+</head>
+<body>
+<main>
+  <header><span class="eyebrow">MAKR 100 · PROJECT 1</span><h1>Why these lights turn on</h1></header>
+  <div class="mode-tabs" role="tablist" aria-label="Choose a demonstration">
+    <button type="button" id="binary-tab" role="tab" aria-selected="true" aria-controls="binary-panel">Binary numbers</button>
+    <button type="button" id="logic-tab" role="tab" aria-selected="false" aria-controls="logic-panel">Logical operators</button>
+  </div>
+
+  <section id="binary-panel" role="tabpanel" aria-labelledby="binary-tab">
+    <div class="section-heading">
+      <div><h2>Watch your code draw a number.</h2><p class="lead">One trip through the loop controls one LED.</p></div>
+      <form id="number-form"><label for="number">Example counter value (0–31)</label><div class="number-entry"><input id="number" type="number" min="0" max="31" step="1" required value="13"><button type="submit">Use number</button></div></form>
+    </div>
+    <div class="walkthrough code-walkthrough">
+      <div class="live-values"><span><code>counter</code> = <strong id="counter-value">13</strong></span><span><code>i</code> = <strong id="index-value">0</strong></span><span id="step-label">Ready</span></div>
+      <div class="code-example" aria-label="Actual binary display loop">
+        <div class="code-caption">From your binary-only sketch · <code>displayCount()</code></div>
+        <pre><code><span id="code-for">for (int i = 0; i &lt; LED_COUNT; i++) {</span>
+  <span id="code-write">digitalWrite(<span id="code-pin">LED_PINS[i]</span>, <span id="code-bit">bitRead(counter, i)</span>);</span>
+}</code></pre>
+      </div>
+      <div class="instruction" aria-live="polite" aria-atomic="true"><h3 id="instruction-title">The loop starts at i = 0.</h3><p id="instruction-text">Click Next instruction to follow what the code does.</p></div>
+      <div class="resolved"><span id="resolved-label">Stored number</span><strong id="resolved-call">13 = 01101 in binary</strong><div id="bit-code-math" hidden></div>
+      <p class="board-caption">The 1s LED is on the right. The loop starts there and moves left.</p>
+      <div id="binary-lights" class="binary-lights code-lights" aria-label="LEDs and matching binary positions"></div>
+      <div class="controls"><button type="button" id="back" disabled>Back</button><button type="button" id="next" class="primary">Next instruction →</button><button type="button" id="play">Play slowly</button><button type="button" id="restart" class="quiet">Start over</button></div>
+      <div id="binary-answer" class="answer" hidden></div>
+    </div>
+    <details class="code-note"><summary>Where do the pin numbers come from?</summary><p>Your array is <code>LED_PINS[] = {12, 11, 10, 9, 8}</code>. Index 0 selects D12, the 1s LED at the far right. Index 1 selects D11, the 2s LED. The loop continues through 4, 8, and 16.</p><p><code>bitRead(counter, i)</code> reads one digit from the number stored in binary. Bit 0 is the rightmost digit. A returned 1 means HIGH / ON; 0 means LOW / OFF.</p></details>
+  </section>
+
+  <section id="logic-panel" role="tabpanel" aria-labelledby="logic-tab" hidden>
+    <div class="section-heading"><div><h2>Watch a logical expression control its LED.</h2><p class="lead">Choose a rule, then change A and B. Watch the code and its result.</p></div></div>
+    <div class="rule-picker" role="group" aria-label="Choose a logical rule">
+      <button type="button" data-rule="and" aria-pressed="true">AND</button><button type="button" data-rule="or" aria-pressed="false">OR</button><button type="button" data-rule="xor" aria-pressed="false">XOR</button><button type="button" data-rule="not" aria-pressed="false">NOT A</button>
+    </div>
+    <div class="logic-board">
+      <h3 id="rule-question">Are BOTH buttons pressed?</h3>
+      <p id="rule-description" class="rule-description">AND turns on only when A and B are both pressed.</p>
+      <div class="logic-chain">
+        <div class="input-buttons">
+          <button type="button" id="input-a" class="input-button" aria-pressed="false" aria-label="Press A"><span class="input-name">A</span><span id="input-a-state" class="input-state">RELEASED · 0</span><span id="input-a-action" class="input-action">Press A</span></button>
+          <button type="button" id="input-b" class="input-button" aria-pressed="false" aria-label="Press B"><span class="input-name">B</span><span id="input-b-state" class="input-state">RELEASED · 0</span><span id="input-b-action" class="input-action">Press B</span></button>
+        </div>
+        <div class="signal-arrow" aria-hidden="true">→</div>
+        <div class="logic-result"><span id="output-label">AND light</span><div id="output-lamp" class="lamp output-lamp" role="img" aria-label="AND light off"><span id="output-digit">0</span></div><strong id="output-state">OFF</strong></div>
+      </div>
+      <div class="logic-source"><span class="code-caption">From your combined sketch · runProjectB()</span><pre id="logic-source-code"></pre><p id="logic-substitution"></p></div>
+      <div class="logic-answer" aria-live="polite" aria-atomic="true"><h4 id="logic-reason">No. Neither button is pressed.</h4><p id="logic-conclusion">AND stays OFF because it needs both buttons.</p><div id="logic-equation" class="logic-equation">0 AND 0 = 0</div></div>
+      <p class="interaction-hint">Click a pressed button again to release it.</p>
+    </div>
+    <details class="code-note"><summary>Show all six lights on my project</summary><p>A and B show the buttons directly. The other four lights each follow their own rule.</p><div id="all-outputs" class="all-outputs"></div></details>
+    <details class="code-note"><summary>How does this match my Arduino code?</summary><p><code>runProjectB()</code> treats a pressed button as true (1) and a released button as false (0). It calculates each logical result, then <code>digitalWrite()</code> turns that result's LED on for true or off for false.</p></details>
+  </section>
+  <footer>Interactive explanation for your project video. These controls do not connect to the Arduino.</footer>
+</main>
+<script src="led-model.js?v=5"></script><script src="concepts.js?v=7"></script>
+</body></html>

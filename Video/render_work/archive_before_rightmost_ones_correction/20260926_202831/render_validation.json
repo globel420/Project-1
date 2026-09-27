@@ -1,0 +1,73 @@
+{
+  "contract_duration_seconds": 210,
+  "binary_explanation": "actual bitRead expansion: (value >> bit) & 1",
+  "decoded_without_errors": true,
+  "videos": {
+    "Project_1_LED_Animation.mp4": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080,
+          "pix_fmt": "yuv420p",
+          "r_frame_rate": "24/1"
+        }
+      ],
+      "format": {
+        "duration": "210.000000",
+        "size": "3863858"
+      }
+    },
+    "Binary_Counter_Animation.mp4": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080,
+          "pix_fmt": "yuv420p",
+          "r_frame_rate": "24/1"
+        }
+      ],
+      "format": {
+        "duration": "110.000000",
+        "size": "1946068"
+      }
+    },
+    "Logic_Operators_Animation.mp4": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080,
+          "pix_fmt": "yuv420p",
+          "r_frame_rate": "24/1"
+        }
+      ],
+      "format": {
+        "duration": "100.000000",
+        "size": "1918637"
+      }
+    }
+  },
+  "logic_export_preserved_byte_for_byte": true,
+  "led_values_left_to_right": [
+    1,
+    2,
+    4,
+    8,
+    16
+  ],
+  "led_pins_left_to_right": [
+    12,
+    11,
+    10,
+    9,
+    8
+  ]
+}

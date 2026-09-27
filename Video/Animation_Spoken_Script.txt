@@ -1,0 +1,62 @@
+0:00–0:08
+Here's how the Arduino decides which LEDs to turn on in each mode.
+
+0:08–0:20
+The ones LED is on the far right. Moving left, the values are two, four, eight, and sixteen. The code starts at the rightmost LED.
+
+0:20–0:33
+To display thirteen, the one, four, and eight lights are on. One plus four plus eight equals thirteen. The two and sixteen lights stay off.
+
+0:33–0:46
+Each short press and release calls incrementCounter, which adds one. Then showBinary reads the five bits of that number and updates the lights.
+
+0:46–0:59
+bitRead shifts the number right, then uses bitwise AND with one. The shift moves the chosen bit to the rightmost position. AND keeps only that bit.
+
+0:59–1:07
+Shifting thirteen by zero leaves its bits unchanged. AND with one returns one, so pin twelve turns on.
+
+1:07–1:15
+Thirteen shifted right once ends in zero. AND with one gives zero, so the twos LED is off.
+
+1:15–1:23
+Shift thirteen right twice. The last bit is one. AND with one keeps it, turning on the fours LED.
+
+1:23–1:31
+Shift thirteen right three times. The result is one. AND with one keeps it, turning on the eights LED.
+
+1:31–1:39
+Shift thirteen right four times. The result is zero. AND with one keeps zero, so the sixteens LED stays off.
+
+1:39–1:50
+The one, four, and eight LEDs are on for thirteen. At thirty-one, all five are on. Another press resets the count to zero.
+
+1:50–2:02
+Logical operators work with true-or-false answers. runProjectB reads the two buttons. A pressed button becomes true; a released button becomes false.
+
+2:02–2:13
+NOT A asks, is A released? With A released, NOT A is true and its LED is on. Pressing A makes it false.
+
+2:13–2:24
+AND asks, are both buttons pressed? Its LED turns on only when A and B are both true.
+
+2:24–2:35
+OR asks, is at least one button pressed? A alone, B alone, or both together make OR true.
+
+2:35–2:48
+Exclusive OR asks, is exactly one button pressed? A alone or B alone makes it true. Press both, and exclusive OR turns off.
+
+2:48–2:55
+With neither button pressed, the only output light on is NOT A.
+
+2:55–3:02
+With A alone, the A indicator, OR, and exclusive OR are on.
+
+3:02–3:09
+With B alone, B, NOT A, OR, and exclusive OR are on.
+
+3:09–3:18
+With both pressed, A, B, AND, and OR are on. Exclusive OR is off.
+
+3:18–3:30
+For every result, digitalWrite turns the matching LED on for true and off for false. The main loop repeats, so the display responds whenever the buttons change.
